@@ -7,3 +7,5 @@ export const ProfileSchema = z.object({
   userId: z.string(),
   createdAt: z.date(),
 });
+
+export const getProfilesByUserSchema = z.object({ userId: z.string() });

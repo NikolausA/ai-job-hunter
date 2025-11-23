@@ -1,20 +1,19 @@
 import { router, publicProcedure } from "../trpc";
-import { z } from "zod";
+import { createJobSchema, getJobByIdSchema } from "../../../shared/types";
 
 export const jobRouter = router({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return ctx.prisma.job.findMany();
   }),
+  getById: publicProcedure
+    .input(getJobByIdSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.job.findUniqueOrThrow({
+        where: { id: input.id },
+      });
+    }),
   create: publicProcedure
-    .input(
-      z.object({
-        title: z.string(),
-        company: z.string(),
-        description: z.string(),
-        location: z.string(),
-        tags: z.array(z.string()),
-      })
-    )
+    .input(createJobSchema)
     .mutation(async ({ ctx, input }) => {
       return ctx.prisma.job.create({ data: input });
     }),

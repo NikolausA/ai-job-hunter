@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ProfileSchema } from "./profile";
 
-export const UserSchema = z.object({
+export const userSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string().optional(),
@@ -10,3 +10,5 @@ export const UserSchema = z.object({
   updatedAt: z.date(),
   profiles: ProfileSchema.array(),
 });
+
+export const getUserByIdSchema = z.object({ id: z.string() });
